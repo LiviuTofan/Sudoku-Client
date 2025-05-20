@@ -1,8 +1,4 @@
 
-body {
-  margin: 0;
-  padding: 0;
-  background-image: url('../assets/bg.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -18,19 +14,10 @@ body {
   display: flex;
   flex-direction: column;
   position: relative;
-  z-index: 1;
-}
-
-.background-overlay {
-  position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(255, 255, 255, 0.7);
-  z-index: 0;
-}
-
 header, main, footer {
   position: relative;
   z-index: 1;

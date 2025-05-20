@@ -1,6 +1,8 @@
+
 import { generateSudoku as genSudoku } from './generator.js';
 import { isValidMove, isSolved, solveSudoku } from './solver.js';
 import { printGrid } from './utils.js';
+
 
 const generateSudoku = (difficulty) => {
   const result = genSudoku(difficulty);
@@ -10,6 +12,7 @@ const generateSudoku = (difficulty) => {
     solution: result.solution.map(row => [...row])
   };
 };
+
 
 export {
   generateSudoku,

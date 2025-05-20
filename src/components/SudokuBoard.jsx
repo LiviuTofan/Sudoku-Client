@@ -1,78 +1,30 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import '../styles/SudokuBoard.css';
 
-const SudokuBoard = ({ puzzle, solution }) => {
   const [board, setBoard] = useState(Array(9).fill().map(() => Array(9).fill(0)));
   const [selectedCell, setSelectedCell] = useState(null);
   const [errors, setErrors] = useState(Array(9).fill().map(() => Array(9).fill(false)));
   const [showingSolution, setShowingSolution] = useState(false);
-  const [showConfetti, setShowConfetti] = useState(false);
-  const [puzzleSolved, setPuzzleSolved] = useState(false);
-  
-  useEffect(() => {
-    if (puzzle) {
-      setBoard(puzzle.map(row => [...row]));
-      setErrors(Array(9).fill().map(() => Array(9).fill(false)));
-      setPuzzleSolved(false);
-      setShowConfetti(false);
-    }
-  }, [puzzle]);
 
   const isPrefilled = (row, col) => {
     return puzzle && puzzle[row][col] !== 0;
   };
 
-  const toggleSolution = () => {
-    setShowingSolution(!showingSolution);
-    if (!showingSolution) {
       if (solution) {
         setBoard(solution.map(row => [...row]));
       }
     } else {
-      if (puzzle) {
-        setBoard(puzzle.map(row => [...row]));
+
         setErrors(Array(9).fill().map(() => Array(9).fill(false)));
       }
     }
   };
 
-  const handleCellClick = (row, col) => {
-    if (showingSolution) return;
+
     if (!isPrefilled(row, col)) {
       setSelectedCell({ row, col });
     }
   };
 
 
-  const countRemainingSteps = useCallback(() => {
-    let count = 0;
-    for (let i = 0; i < 9; i++) {
-      for (let j = 0; j < 9; j++) {
-        // Count if cell is empty OR has an error
-        if (board[i][j] === 0 || errors[i][j]) {
-          count++;
-        }
-      }
-    }
-    return count;
-  }, [board, errors]);
-
-  // Check if puzzle is solved after each move
-  useEffect(() => {
-    const remainingSteps = countRemainingSteps();
-    if (remainingSteps === 0 && !showingSolution && !puzzleSolved) {
-      setPuzzleSolved(true);
-      setShowConfetti(true);
-      // Hide confetti after 5 seconds
-      setTimeout(() => {
-        setShowConfetti(false);
-      }, 5000);
-    }
-  }, [board, errors, countRemainingSteps, showingSolution, puzzleSolved]);
-
-  const handleNumberInput = (number) => {
-    if (selectedCell) {
-      const { row, col } = selectedCell;
       const newBoard = [...board];
       newBoard[row][col] = number;
       setBoard(newBoard);
@@ -96,6 +48,7 @@ const SudokuBoard = ({ puzzle, solution }) => {
     }
   };
 
+
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
     return () => {
@@ -103,9 +56,11 @@ const SudokuBoard = ({ puzzle, solution }) => {
     };
   }, [selectedCell, board]);
 
+
   const handleClear = () => {
     handleNumberInput(0);
   };
+
 
   const renderNumberControls = () => {
     return (
@@ -129,33 +84,7 @@ const SudokuBoard = ({ puzzle, solution }) => {
     );
   };
 
-  // Render confetti
-  const renderConfetti = () => {
-    return (
-      <div className={`confetti-container ${showConfetti ? 'active' : ''}`}>
-        {Array.from({ length: 150 }).map((_, i) => (
-          <div 
-            key={i} 
-            className="confetti"
-            style={{
-              left: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 5}s`,
-              backgroundColor: ['#ffd700', '#ff0000', '#00ff00', '#0000ff', '#ff00ff'][Math.floor(Math.random() * 5)]
-            }}
-          />
-        ))}
-        <div className="celebration-message">
-          <h2>Congratulations!</h2>
-          <p>You solved the puzzle!</p>
-        </div>
-      </div>
-    );
-  };
 
-  return (
-    <div className="sudoku-container">
-      {showConfetti && renderConfetti()}
-      
       <div className="sudoku-board">
         {board.map((row, rowIndex) => (
           <div key={rowIndex} className="board-row">
@@ -184,7 +113,7 @@ const SudokuBoard = ({ puzzle, solution }) => {
         
         {!showingSolution && (
           <div className="steps-counter">
-            Steps to solve: {countRemainingSteps()}
+
           </div>
         )}
         
