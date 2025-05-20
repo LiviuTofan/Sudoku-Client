@@ -11,4 +11,4 @@ export {
   isSolved,
   solveSudoku,
   printGrid
-};
+}
