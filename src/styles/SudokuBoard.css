@@ -1,6 +1,6 @@
 header h1 {
     margin: 0;
-    color: #000000 !important; /* Force black color regardless of theme */
+    color: #000000 !important;
   }
 
 .sudoku-container {
@@ -40,27 +40,22 @@ header h1 {
     transition: background-color 0.2s, color 0.2s;
   }
   
-
-  /* Highlight prefilled cells */
   .board-cell.prefilled {
     background-color: var(--prefilled-bg);
     font-weight: bold;
     cursor: not-allowed;
   }
   
-  /* Highlight selected cell */
   .board-cell.selected {
     background-color: var(--highlight-color);
     color: white;
   }
-  
-  /* Highlight error cells */
+
   .board-cell.error {
     color: var(--error-color);
     font-weight: bold;
   }
   
-  /* Add thicker borders to create 3x3 boxes */
   .board-cell.border-bottom {
     border-bottom: 2px solid var(--border-color);
   }
@@ -69,7 +64,6 @@ header h1 {
     border-right: 2px solid var(--border-color);
   }
   
-  /* Solution view styling */
   .board-cell.solution-view {
     color: var(--text-color);
     cursor: not-allowed;
@@ -105,27 +99,24 @@ header h1 {
     background-color: var(--btn-hover);
   }
   
-  /* Removed .clear-button class and added .backspace-button */
   .backspace-button {
     font-size: 1.5rem;
   }
   
-  /* Steps counter styling */
   .steps-counter {
     margin: 10px 0;
     font-size: 1.1rem;
     font-weight: bold;
-    color: #000000 !important; /* Force black color regardless of theme */
+    color: #000000 !important;
     padding: 5px 10px;
     border-radius: 5px;
-    background-color: rgba(255, 255, 255, 0.7); /* Light background to ensure visibility */
+    background-color: rgba(255, 255, 255, 0.7);
   }
   
-  /* For dark mode, keep the background light for steps counter */
   [data-theme='dark'] .steps-counter {
     background-color: rgba(255, 255, 255, 0.7); /* Light background even in dark mode */
   }
-  
+
   .solution-button {
     padding: 10px 20px;
     font-size: 1rem;
@@ -147,5 +138,5 @@ header h1 {
   }
   
   .solution-button.showing-solution:hover {
-    background-color: #c82333; /* Darker red */
+    background-color: #c82333;
   }

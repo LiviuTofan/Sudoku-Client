@@ -1,9 +1,8 @@
 
-/* Move background image to body element to cover entire page */
 body {
   margin: 0;
   padding: 0;
-  background-image: url('../assets/bg.png'); /* Path may need adjustment depending on CSS file location */
+  background-image: url('../assets/bg.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -11,7 +10,6 @@ body {
   min-height: 100vh;
 }
 
-/* App container no longer needs the background image */
 .app-container {
   max-width: 800px;
   margin: 0 auto;
@@ -20,27 +18,24 @@ body {
   display: flex;
   flex-direction: column;
   position: relative;
-  z-index: 1; /* Keep container above the overlay */
+  z-index: 1;
 }
 
-/* This overlay covers the entire page for opacity control */
 .background-overlay {
-  position: fixed; /* Fixed position to cover entire viewport */
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(255, 255, 255, 0.7); /* Adjust opacity here - 0.7 means 70% opaque */
-  z-index: 0; /* Position it below your content */
+  background-color: rgba(255, 255, 255, 0.7);
+  z-index: 0;
 }
 
-/* Make sure all your content is above the overlay */
 header, main, footer {
   position: relative;
   z-index: 1;
 }
 
-/* Rest of your styles remain the same... */
 header {
   display: flex;
   justify-content: space-between;

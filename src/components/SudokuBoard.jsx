@@ -94,12 +94,14 @@ const SudokuBoard = ({ puzzle, solution }) => {
     handleNumberInput(0);
   };
 
-  // Calculate remaining empty cells
-  const countEmptyCells = () => {
+  // Calculate remaining steps needed to solve
+  // This should count empty cells OR cells with errors
+  const countRemainingSteps = () => {
     let count = 0;
     for (let i = 0; i < 9; i++) {
       for (let j = 0; j < 9; j++) {
-        if (board[i][j] === 0) {
+        // Count if cell is empty OR has an error
+        if (board[i][j] === 0 || errors[i][j]) {
           count++;
         }
       }
@@ -160,7 +162,7 @@ const SudokuBoard = ({ puzzle, solution }) => {
         
         {!showingSolution && (
           <div className="steps-counter">
-            Steps to solve: {countEmptyCells()}
+            Steps to solve: {countRemainingSteps()}
           </div>
         )}
         

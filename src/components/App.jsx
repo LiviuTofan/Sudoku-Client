@@ -2,33 +2,22 @@ import React, { useState, useEffect } from 'react'
 import SudokuBoard from './SudokuBoard'
 import DifficultySelector from './DifficultySelector'
 import '../styles/App.css'
-// Import your background image
 import backgroundImage from '../assets/bg.png';
 
-// Dummy function for generateSudoku - replace this with your actual function
 const generateSudoku = (difficulty) => {
   console.log("Generating sudoku with difficulty:", difficulty);
-  
-  // Create an empty 9x9 grid
+
   const createEmptyGrid = () => Array(9).fill().map(() => Array(9).fill(0));
-  
-  // Generate a simple puzzle based on difficulty
   const puzzle = createEmptyGrid();
   const solution = createEmptyGrid();
-  
-  // Fill in some numbers for the puzzle and solution
-  // This is just a placeholder - your actual generator would be more complex
   const filledCells = difficulty === 'easy' ? 35 : (difficulty === 'medium' ? 30 : 25);
   
-  // Create a simple solution (not a valid sudoku, just for demonstration)
   for (let i = 0; i < 9; i++) {
     for (let j = 0; j < 9; j++) {
-      // Simple pattern for the solution
       solution[i][j] = ((i*3 + Math.floor(i/3) + j) % 9) + 1;
     }
   }
   
-  // Create the puzzle by copying some cells from the solution
   const positions = [];
   for (let i = 0; i < 9; i++) {
     for (let j = 0; j < 9; j++) {
@@ -41,8 +30,7 @@ const generateSudoku = (difficulty) => {
     const j = Math.floor(Math.random() * (i + 1));
     [positions[i], positions[j]] = [positions[j], positions[i]];
   }
-  
-  // Fill the puzzle with the first 'filledCells' positions
+
   for (let i = 0; i < filledCells; i++) {
     const [row, col] = positions[i];
     puzzle[row][col] = solution[row][col];
@@ -78,7 +66,6 @@ function App() {
   }, [theme])
 
   const generateNewPuzzle = () => {
-    // Generate new puzzle
     const { puzzle, solution } = generateSudoku(difficulty)
     setPuzzle(puzzle)
     setSolution(solution)
@@ -108,11 +95,9 @@ function App() {
           setSolution(solution)
           setDifficulty(difficulty)
         } catch (e) {
-          // If there's an error parsing, generate a new puzzle
           generateNewPuzzle()
         }
       } else {
-        // If no saved puzzle, generate a new one
         generateNewPuzzle()
       }
     }
@@ -130,7 +115,6 @@ function App() {
         position: 'relative'
       }}
     >
-      {/* Semi-transparent overlay */}
       <div className="background-overlay"></div>
       
       <header>
