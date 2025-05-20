@@ -30,6 +30,7 @@
     border: 1px solid var(--border-color);
     cursor: pointer;
     user-select: none;
+    transition: background-color 0.2s, color 0.2s;
   }
   
   /* Highlight prefilled cells */
@@ -48,6 +49,7 @@
   /* Highlight error cells */
   .board-cell.error {
     color: var(--error-color);
+    font-weight: bold;
   }
   
   /* Add thicker borders to create 3x3 boxes */
@@ -59,11 +61,25 @@
     border-right: 2px solid var(--border-color);
   }
   
+  /* Solution view styling */
+  .board-cell.solution-view {
+    color: var(--text-color);
+    cursor: not-allowed;
+  }
+  
+  .board-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+  }
+  
   .number-controls {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 5px;
-    margin-top: 20px;
+    margin-bottom: 15px;
     width: 300px;
   }
   
@@ -83,4 +99,28 @@
   
   .clear-button {
     grid-column: span 2;
+  }
+  
+  .solution-button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: var(--btn-bg);
+    color: var(--btn-text);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 10px;
+  }
+  
+  .solution-button:hover {
+    background-color: var(--btn-hover);
+  }
+  
+  .solution-button.showing-solution {
+    background-color: var(--error-color);
+  }
+  
+  .solution-button.showing-solution:hover {
+    background-color: #c82333; /* Darker red */
   }

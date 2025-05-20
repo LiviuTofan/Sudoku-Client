@@ -6,6 +6,7 @@ const SudokuBoard = ({ puzzle, solution }) => {
   const [board, setBoard] = useState(Array(9).fill().map(() => Array(9).fill(0)));
   const [selectedCell, setSelectedCell] = useState(null);
   const [errors, setErrors] = useState(Array(9).fill().map(() => Array(9).fill(false)));
+  const [showingSolution, setShowingSolution] = useState(false);
   
   // Initialize the board with the puzzle
   useEffect(() => {
@@ -22,8 +23,29 @@ const SudokuBoard = ({ puzzle, solution }) => {
     return puzzle && puzzle[row][col] !== 0;
   };
 
+  // Toggle solution view
+  const toggleSolution = () => {
+    setShowingSolution(!showingSolution);
+    if (!showingSolution) {
+      // When showing solution, update the board to match the solution
+      if (solution) {
+        setBoard(solution.map(row => [...row]));
+      }
+    } else {
+      // When hiding solution, revert to the current puzzle state
+      if (puzzle) {
+        setBoard(puzzle.map(row => [...row]));
+        // Clear errors when returning to puzzle view
+        setErrors(Array(9).fill().map(() => Array(9).fill(false)));
+      }
+    }
+  };
+
   // Handle cell selection
   const handleCellClick = (row, col) => {
+    // Don't allow selection if showing solution
+    if (showingSolution) return;
+    
     // Don't allow selection of prefilled cells
     if (!isPrefilled(row, col)) {
       setSelectedCell({ row, col });
@@ -49,7 +71,7 @@ const SudokuBoard = ({ puzzle, solution }) => {
 
   // Handle keyboard input
   const handleKeyDown = (e) => {
-    if (selectedCell) {
+    if (selectedCell && !showingSolution) {
       const key = e.key;
       if (/^[1-9]$/.test(key)) {
         handleNumberInput(parseInt(key));
@@ -104,6 +126,7 @@ const SudokuBoard = ({ puzzle, solution }) => {
                   ${errors[rowIndex][colIndex] ? 'error' : ''}
                   ${rowIndex % 3 === 2 && rowIndex < 8 ? 'border-bottom' : ''}
                   ${colIndex % 3 === 2 && colIndex < 8 ? 'border-right' : ''}
+                  ${showingSolution ? 'solution-view' : ''}
                 `}
                 onClick={() => handleCellClick(rowIndex, colIndex)}
               >
@@ -113,7 +136,17 @@ const SudokuBoard = ({ puzzle, solution }) => {
           </div>
         ))}
       </div>
-      {renderNumberControls()}
+      
+      <div className="board-controls">
+        {!showingSolution && renderNumberControls()}
+        
+        <button 
+          className={`solution-button ${showingSolution ? 'showing-solution' : ''}`}
+          onClick={toggleSolution}
+        >
+          {showingSolution ? 'Hide Solution' : 'Show Solution'}
+        </button>
+      </div>
     </div>
   );
 };
