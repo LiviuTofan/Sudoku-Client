@@ -3,7 +3,7 @@ import SudokuBoard from './SudokuBoard'
 import DifficultySelector from './DifficultySelector'
 import '../styles/App.css'
 // Import your background image
-import backgroundImage from '/home/lifan/Univer/Pweb/Sudoku-Client/assets/bg.png' // Update this path to match your actual image path
+import backgroundImage from '../assets/bg.png';
 
 // Dummy function for generateSudoku - replace this with your actual function
 const generateSudoku = (difficulty) => {

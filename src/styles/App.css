@@ -1,63 +1,97 @@
+
+/* Move background image to body element to cover entire page */
+body {
+  margin: 0;
+  padding: 0;
+  background-image: url('../assets/bg.png'); /* Path may need adjustment depending on CSS file location */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+/* App container no longer needs the background image */
 .app-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  header h1 {
-    margin: 0;
-  }
-  
-  .theme-toggle {
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    padding: 5px;
-  }
-  
-  main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .controls {
-    display: flex;
-    width: 100%;
-    max-width: 360px;
-    justify-content: space-between;
-    margin-bottom: 20px;
-  }
-  
-  .new-game-btn {
-    padding: 8px 15px;
-    font-size: 1rem;
-    background-color: var(--btn-bg);
-    color: var(--btn-text);
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-  }
-  
-  .new-game-btn:hover {
-    background-color: var(--btn-hover);
-  }
-  
-  footer {
-    margin-top: 20px;
-    text-align: center;
-    font-size: 0.8rem;
-  }
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1; /* Keep container above the overlay */
+}
+
+/* This overlay covers the entire page for opacity control */
+.background-overlay {
+  position: fixed; /* Fixed position to cover entire viewport */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.7); /* Adjust opacity here - 0.7 means 70% opaque */
+  z-index: 0; /* Position it below your content */
+}
+
+/* Make sure all your content is above the overlay */
+header, main, footer {
+  position: relative;
+  z-index: 1;
+}
+
+/* Rest of your styles remain the same... */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+header h1 {
+  margin: 0;
+}
+
+.theme-toggle {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 5px;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.controls {
+  display: flex;
+  width: 100%;
+  max-width: 360px;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.new-game-btn {
+  padding: 8px 15px;
+  font-size: 1rem;
+  background-color: var(--btn-bg);
+  color: var(--btn-text);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.new-game-btn:hover {
+  background-color: var(--btn-hover);
+}
+
+footer {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 0.8rem;
+}

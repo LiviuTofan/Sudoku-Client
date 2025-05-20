@@ -3,6 +3,8 @@
     flex-direction: column;
     align-items: center;
     margin-top: 20px;
+    position: relative;
+    z-index: 1;
   }
   
   .sudoku-board {
@@ -33,6 +35,7 @@
     transition: background-color 0.2s, color 0.2s;
   }
   
+
   /* Highlight prefilled cells */
   .board-cell.prefilled {
     background-color: var(--prefilled-bg);
