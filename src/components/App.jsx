@@ -54,12 +54,10 @@ function App() {
   const [solution, setSolution] = useState(null)
   const [theme, setTheme] = useState(getSavedTheme())
 
-  // Generate a new puzzle when difficulty changes
   useEffect(() => {
     generateNewPuzzle()
   }, [difficulty])
 
-  // Save theme preference to localStorage
   useEffect(() => {
     localStorage.setItem('sudokuTheme', theme)
     document.documentElement.setAttribute('data-theme', theme)

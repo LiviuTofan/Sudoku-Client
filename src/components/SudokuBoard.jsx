@@ -1,63 +1,78 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import '../styles/SudokuBoard.css';
 
 const SudokuBoard = ({ puzzle, solution }) => {
-  // State to track user's input
   const [board, setBoard] = useState(Array(9).fill().map(() => Array(9).fill(0)));
   const [selectedCell, setSelectedCell] = useState(null);
   const [errors, setErrors] = useState(Array(9).fill().map(() => Array(9).fill(false)));
   const [showingSolution, setShowingSolution] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [puzzleSolved, setPuzzleSolved] = useState(false);
   
-  // Initialize the board with the puzzle
   useEffect(() => {
     if (puzzle) {
-      // Make a deep copy of the puzzle to avoid mutation
       setBoard(puzzle.map(row => [...row]));
-      // Reset errors
       setErrors(Array(9).fill().map(() => Array(9).fill(false)));
+      setPuzzleSolved(false);
+      setShowConfetti(false);
     }
   }, [puzzle]);
 
-  // Check if a cell is prefilled (part of the original puzzle)
   const isPrefilled = (row, col) => {
     return puzzle && puzzle[row][col] !== 0;
   };
 
-  // Toggle solution view
   const toggleSolution = () => {
     setShowingSolution(!showingSolution);
     if (!showingSolution) {
-      // When showing solution, update the board to match the solution
       if (solution) {
         setBoard(solution.map(row => [...row]));
       }
     } else {
-      // When hiding solution, revert to the current puzzle state
       if (puzzle) {
         setBoard(puzzle.map(row => [...row]));
-        // Clear errors when returning to puzzle view
         setErrors(Array(9).fill().map(() => Array(9).fill(false)));
       }
     }
   };
 
-  // Handle cell selection
   const handleCellClick = (row, col) => {
-    // Don't allow selection if showing solution
     if (showingSolution) return;
-    
-    // Don't allow selection of prefilled cells
     if (!isPrefilled(row, col)) {
       setSelectedCell({ row, col });
     }
   };
 
-  // Handle number input
+
+  const countRemainingSteps = useCallback(() => {
+    let count = 0;
+    for (let i = 0; i < 9; i++) {
+      for (let j = 0; j < 9; j++) {
+        // Count if cell is empty OR has an error
+        if (board[i][j] === 0 || errors[i][j]) {
+          count++;
+        }
+      }
+    }
+    return count;
+  }, [board, errors]);
+
+  // Check if puzzle is solved after each move
+  useEffect(() => {
+    const remainingSteps = countRemainingSteps();
+    if (remainingSteps === 0 && !showingSolution && !puzzleSolved) {
+      setPuzzleSolved(true);
+      setShowConfetti(true);
+      // Hide confetti after 5 seconds
+      setTimeout(() => {
+        setShowConfetti(false);
+      }, 5000);
+    }
+  }, [board, errors, countRemainingSteps, showingSolution, puzzleSolved]);
+
   const handleNumberInput = (number) => {
     if (selectedCell) {
       const { row, col } = selectedCell;
-      
-      // Update the board
       const newBoard = [...board];
       newBoard[row][col] = number;
       setBoard(newBoard);
@@ -81,7 +96,6 @@ const SudokuBoard = ({ puzzle, solution }) => {
     }
   };
 
-  // Set up keyboard event listener
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
     return () => {
@@ -89,27 +103,10 @@ const SudokuBoard = ({ puzzle, solution }) => {
     };
   }, [selectedCell, board]);
 
-  // Handle clear/backspace (same as entering 0)
   const handleClear = () => {
     handleNumberInput(0);
   };
 
-  // Calculate remaining steps needed to solve
-  // This should count empty cells OR cells with errors
-  const countRemainingSteps = () => {
-    let count = 0;
-    for (let i = 0; i < 9; i++) {
-      for (let j = 0; j < 9; j++) {
-        // Count if cell is empty OR has an error
-        if (board[i][j] === 0 || errors[i][j]) {
-          count++;
-        }
-      }
-    }
-    return count;
-  };
-
-  // Render the number input controls
   const renderNumberControls = () => {
     return (
       <div className="number-controls">
@@ -132,8 +129,33 @@ const SudokuBoard = ({ puzzle, solution }) => {
     );
   };
 
+  // Render confetti
+  const renderConfetti = () => {
+    return (
+      <div className={`confetti-container ${showConfetti ? 'active' : ''}`}>
+        {Array.from({ length: 150 }).map((_, i) => (
+          <div 
+            key={i} 
+            className="confetti"
+            style={{
+              left: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 5}s`,
+              backgroundColor: ['#ffd700', '#ff0000', '#00ff00', '#0000ff', '#ff00ff'][Math.floor(Math.random() * 5)]
+            }}
+          />
+        ))}
+        <div className="celebration-message">
+          <h2>Congratulations!</h2>
+          <p>You solved the puzzle!</p>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="sudoku-container">
+      {showConfetti && renderConfetti()}
+      
       <div className="sudoku-board">
         {board.map((row, rowIndex) => (
           <div key={rowIndex} className="board-row">
