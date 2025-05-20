@@ -1,25 +1,20 @@
-import React from 'react'
-import '../styles/DifficultySelector.css'
+import React from 'react';
+import '../styles/DifficultySelector.css';
 
-function DifficultySelector({ difficulty, onDifficultyChange }) {
-  const difficulties = ['easy', 'medium', 'hard']
-  
+const DifficultySelector = ({ difficulty, onDifficultyChange }) => {
   return (
     <div className="difficulty-selector">
-      <label htmlFor="difficulty-select">Difficulty:</label>
       <select 
-        id="difficulty-select"
         value={difficulty} 
         onChange={(e) => onDifficultyChange(e.target.value)}
+        className="difficulty-select"
       >
-        {difficulties.map(diff => (
-          <option key={diff} value={diff}>
-            {diff.charAt(0).toUpperCase() + diff.slice(1)}
-          </option>
-        ))}
+        <option value="easy">Easy</option>
+        <option value="medium">Medium</option>
+        <option value="hard">Hard</option>
       </select>
     </div>
-  )
-}
+  );
+};
 
-export default DifficultySelector
+export default DifficultySelector;
