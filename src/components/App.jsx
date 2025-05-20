@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import SudokuBoard from './SudokuBoard'
 import DifficultySelector from './DifficultySelector'
 import '../styles/App.css'
+// Import your background image
+import backgroundImage from '/home/lifan/Univer/Pweb/Sudoku-Client/assets/bg.png' // Update this path to match your actual image path
 
 // Dummy function for generateSudoku - replace this with your actual function
 const generateSudoku = (difficulty) => {
@@ -117,7 +119,20 @@ function App() {
   }, [])
 
   return (
-    <div className="app-container">
+    <div 
+      className="app-container"
+      style={{
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'fixed',
+        position: 'relative'
+      }}
+    >
+      {/* Semi-transparent overlay */}
+      <div className="background-overlay"></div>
+      
       <header>
         <h1>Sudoku</h1>
         <button 
@@ -147,10 +162,6 @@ function App() {
           />
         )}
       </main>
-
-      <footer>
-        <p>Client-side Sudoku Generator &copy; {new Date().getFullYear()}</p>
-      </footer>
     </div>
   )
 }

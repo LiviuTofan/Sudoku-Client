@@ -89,6 +89,24 @@ const SudokuBoard = ({ puzzle, solution }) => {
     };
   }, [selectedCell, board]);
 
+  // Handle clear/backspace (same as entering 0)
+  const handleClear = () => {
+    handleNumberInput(0);
+  };
+
+  // Calculate remaining empty cells
+  const countEmptyCells = () => {
+    let count = 0;
+    for (let i = 0; i < 9; i++) {
+      for (let j = 0; j < 9; j++) {
+        if (board[i][j] === 0) {
+          count++;
+        }
+      }
+    }
+    return count;
+  };
+
   // Render the number input controls
   const renderNumberControls = () => {
     return (
@@ -103,10 +121,10 @@ const SudokuBoard = ({ puzzle, solution }) => {
           </button>
         ))}
         <button 
-          onClick={() => handleNumberInput(0)}
-          className="number-button clear-button"
+          onClick={handleClear}
+          className="number-button backspace-button"
         >
-          Clear
+          ←
         </button>
       </div>
     );
@@ -139,6 +157,12 @@ const SudokuBoard = ({ puzzle, solution }) => {
       
       <div className="board-controls">
         {!showingSolution && renderNumberControls()}
+        
+        {!showingSolution && (
+          <div className="steps-counter">
+            Steps to solve: {countEmptyCells()}
+          </div>
+        )}
         
         <button 
           className={`solution-button ${showingSolution ? 'showing-solution' : ''}`}
