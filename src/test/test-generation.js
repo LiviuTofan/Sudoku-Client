@@ -1,10 +1,5 @@
-// src/test/test-generation.js - Test script for the sudoku generation logic
-
 import { generateSudoku, printGrid } from '../sudoku/index.js';
 
-/**
- * Tests the sudoku puzzle generation functionality
- */
 export function testSudokuGeneration() {
   console.log("=== Testing Sudoku Generation ===");
   
@@ -29,11 +24,8 @@ export function testSudokuGeneration() {
     }
     
     console.log(`  Empty cells: ${emptyCells} (${(emptyCells / 81 * 100).toFixed(2)}% of grid)`);
-    
-    // Print the puzzle
     console.log("\nPuzzle:");
     printGrid(puzzle);
-    
     console.log("\nSolution:");
     printGrid(solution);
     
@@ -41,5 +33,4 @@ export function testSudokuGeneration() {
   }
 }
 
-// Export the test function
 export default testSudokuGeneration;
